@@ -1,7 +1,10 @@
 import cv2
+from config.freePIE_init import init_freePie
 from utils.video_utils import start_video_capture, release_video_capture
 from controllers.hand_controller import process_hand_landmarks
 from controllers.head_controller import process_head_landmarks
+
+init_freePie("path/to/freepie")
 
 cap = start_video_capture()
 
