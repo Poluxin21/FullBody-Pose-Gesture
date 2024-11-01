@@ -5,8 +5,6 @@
 #include <sstream>
 #include <vector>
 
-#pragma comment(lib, "Ws2_32.lib") // Link the Winsock library
-
 vr::IVRSystem* vrSystem = nullptr;
 
 // Inicializa o OpenVR

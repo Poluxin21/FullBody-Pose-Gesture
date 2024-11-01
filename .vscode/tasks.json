@@ -11,8 +11,7 @@
                 "-o",
                 "${workspaceFolder}/src/vrDriver/vrDriver",
                 "-I${workspaceFolder}/src/vrDriver/openvr-2.5.1/headers",
-                "-L${workspaceFolder}/src/vrDriver/openvr-2.5.1/lib",
-                "-lopenvr_api",
+                "-L${workspaceFolder}/src/vrDriver/openvr-2.5.1/lib/win64/openvr_api.lib", // Mudar dependendo da SO 
             ],
             "group": {
                 "kind": "build",

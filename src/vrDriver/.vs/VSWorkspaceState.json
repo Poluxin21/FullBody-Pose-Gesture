@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\openvr-2.5.1",
+    "\\openvr-2.5.1\\headers",
+    "\\openvr-2.5.1\\src"
   ],
   "SelectedNode": "\\main.cpp",
   "PreviewInSolutionExplorer": false
