@@ -1,12 +1,11 @@
 #include <iostream>
 #include <openvr.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cstring>
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #include <sstream>
 #include <vector>
+
+#pragma comment(lib, "Ws2_32.lib") // Link the Winsock library
 
 vr::IVRSystem* vrSystem = nullptr;
 
@@ -26,11 +25,18 @@ bool initOpenVR() {
 
 // Configura o socket UDP para receber os dados
 int setupUDPSocket(int port) {
-    int sockfd;
+    SOCKET sockfd;
     struct sockaddr_in servaddr;
 
-    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "Erro ao inicializar o Winsock" << std::endl;
+        return -1;
+    }
+
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
         std::cerr << "Erro ao criar socket UDP" << std::endl;
+        WSACleanup();
         return -1;
     }
 
@@ -39,9 +45,10 @@ int setupUDPSocket(int port) {
     servaddr.sin_addr.s_addr = INADDR_ANY;
     servaddr.sin_port = htons(port);
 
-    if (bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
+    if (bind(sockfd, (const struct sockaddr*)&servaddr, sizeof(servaddr)) == SOCKET_ERROR) {
         std::cerr << "Erro ao associar o socket" << std::endl;
-        close(sockfd);
+        closesocket(sockfd);
+        WSACleanup();
         return -1;
     }
 
@@ -50,7 +57,7 @@ int setupUDPSocket(int port) {
 }
 
 // Função para processar e aplicar as coordenadas (x, y, z) no OpenVR
-void processAndSendToVR(const std::string &data) {
+void processAndSendToVR(const std::string& data) {
     std::stringstream ss(data);
     std::vector<float> coords;
     std::string item;
@@ -58,7 +65,8 @@ void processAndSendToVR(const std::string &data) {
     while (std::getline(ss, item, ',')) {
         try {
             coords.push_back(std::stof(item));
-        } catch (const std::invalid_argument& e) {
+        }
+        catch (const std::invalid_argument& e) {
             std::cerr << "Erro ao converter coordenadas: " << e.what() << std::endl;
             return;
         }
@@ -77,11 +85,11 @@ void processAndSendToVR(const std::string &data) {
 void receiveDataAndSendToVR(int sockfd) {
     char buffer[1024];
     struct sockaddr_in clientaddr;
-    socklen_t len = sizeof(clientaddr);
+    int len = sizeof(clientaddr);
 
     while (true) {
-        int n = recvfrom(sockfd, buffer, 1024, MSG_WAITALL, (struct sockaddr *)&clientaddr, &len);
-        if (n < 0) {
+        int n = recvfrom(sockfd, buffer, sizeof(buffer) - 1, 0, (struct sockaddr*)&clientaddr, &len);
+        if (n == SOCKET_ERROR) {
             std::cerr << "Erro ao receber dados no socket UDP" << std::endl;
             continue;
         }
@@ -108,6 +116,7 @@ int main() {
     receiveDataAndSendToVR(sockfd);
 
     vr::VR_Shutdown();
-    close(sockfd);
+    closesocket(sockfd);
+    WSACleanup(); // Limpa o Winsock
     return 0;
 }

@@ -1,46 +1,27 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Debug VR Driver",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/vrDriver/vrDriver",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
+    "version": "0.2.0",
+    "configurations": [
         {
-          "description": "Ativar impressão de modo de sinalização",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
+            "name": "Debug VR Driver",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/vrDriver/vrDriver",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Ativar impressão de modo de sinalização",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build vrDriver",
+            "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
+            "internalConsoleOptions": "openOnSessionStart"
         }
-      ],
-      "preLaunchTask": "build vrDriver",
-      "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
-      "internalConsoleOptions": "openOnSessionStart"
-    },
-    {
-      "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
-      "request": "launch",
-      "args": [],
-      "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "c:/Users/guilh/Desktop/Prog/3D-Render-BodyToVrChat/src/vrDriver",
-      "program": "c:/Users/guilh/Desktop/Prog/3D-Render-BodyToVrChat/src/vrDriver/build/Debug/outDebug",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
-    }
-  ]
+    ]
 }
