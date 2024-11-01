@@ -5,5 +5,5 @@ class HandDetectorAdapter:
         self.detector = HandDetector(maxHands=max_hands, detectionCon=detection_confidence)
 
     def detect_hands(self, img):
-        hands, img = self.detector.findHands(img, draw=False)
+        hands, img = self.detector.findHands(img, draw=True)
         return hands
