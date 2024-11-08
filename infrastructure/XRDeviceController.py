@@ -4,7 +4,7 @@ import time
 import pyopenxr as xr
 import numpy as np
 
-class VRDeviceController:
+class XRDeviceController:
     def __init__(self, ip="127.0.0.1", port=5052):
         self.instance = xr.create_instance()
         self.system = self.instance.get_system(xr.FormFactor.HeadMountedDisplay)
