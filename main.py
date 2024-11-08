@@ -19,7 +19,7 @@ def main():
         print("Controlador VR (OpenVR) inicializado com sucesso.")
         
         # TIRAR OS COMENTARIOS CASO QUEIRA USAR OpenXR
-        # xr_controller = XRDeviceController(ip="127.0.0.1", port=5052)
+        # xr_controller = XRDeviceController()
         # print("Controlador VR (OpenXR) inicializado com sucesso.")
     
         tracking_service = HandTrackingService(detector, camera, socket_adapter)
