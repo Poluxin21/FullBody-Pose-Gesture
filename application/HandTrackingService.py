@@ -8,11 +8,13 @@ class HandTrackingService:
 
     def process_frame(self):
         img = self.camera.get_frame()
+
         hands = self.detector.detect_hands(img)
         
         if hands:
             for hand in hands:
                 hand_data = HandData(hand['lmList'])
-                self.socket_adapter.send(hand_data.to_network_format())
+                osc_data = hand_data.to_network_format()
+                self.socket_adapter.send(osc_data)
                 
         return img
